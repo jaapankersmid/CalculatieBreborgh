@@ -98,7 +98,7 @@ const P_KM_TARIEF_NL        = 1.50;  // €/km, Nederland (retour = enkele reis 
 const P_KM_TARIEF_DU        = 1.50;  // €/km, Duitsland (retour = enkele reis × 2)
 const P_KM_MIN              = 300;   // minimumprijs ophalen (beide landen)
 const P_BRENGEN_NL          = 200;   // vast tarief bij zelf brengen (beide landen)
-const P_KM_10U              = 400;   // retour-km waarboven >10u reistijd geldt — alleen Duitsland
+const P_KM_10U              = 800;   // retour-km waarboven >10u reistijd geldt (= 400 km enkele reis) — alleen Duitsland
 const P_TOEL_10U            = 105;   // toeslag >10u (Duitsland)
 const P_INSLAPEN_PRIJS      = 370;   // alleen bij "Zelf brengen"
 const P_EXTRA_CHAUFFEUR_NL  = 150;   // alleen bij Ophalen, alleen Nederland
