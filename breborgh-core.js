@@ -29,15 +29,15 @@ const P_ORIGIN_HANSTEDT = 'Auepark 40, 21271 Hanstedt, Duitsland';        // t.b
 
 /* ── Paard: basisprijzen per categorie [naam, max hoogte (m), max gewicht (kg), prijs NL, prijs DU] ── */
 const P_CAT = [
-  ['Veulen',      1.00,  100,  605,  445],
-  ['A-Pony',      1.17,  150,  865,  605],
-  ['B-Pony',      1.27,  250,  970,  655],
-  ['C-Pony',      1.37,  350, 1075,  710],
-  ['D-Pony',      1.49,  450, 1180,  760],
-  ['E-Pony',      1.55,  500, 1340,  865],
-  ['Paard <600',  null,  600, 1445,  970],
-  ['Paard <700',  null,  700, 1550, 1075],
-  ['Paard <1200', null, 1200, 1655, 1285],
+  ['Veulen',      1.00,  100,  640,  490],
+  ['A-Pony',      1.17,  150,  910,  665],
+  ['B-Pony',      1.27,  250, 1020,  720],
+  ['C-Pony',      1.37,  350, 1130,  780],
+  ['D-Pony',      1.49,  450, 1240,  840],
+  ['E-Pony',      1.55,  500, 1410,  955],
+  ['Paard <600',  null,  600, 1520, 1070],
+  ['Paard <700',  null,  700, 1630, 1185],
+  ['Paard <1200', null, 1200, 1740, 1420],
 ];
 
 /* ── Huisdier: basisprijzen per gewichtsklasse [minKg, maxKg, prijs collectief, prijs individueel] ── */
@@ -59,7 +59,7 @@ const HD_GEWICHT = [
 /* ── Paard: extra opties, gelden voor beide landen ── */
 const P_EXTRAS = {
   'p-afscheid':   200,
-  'p-weekend':    165,
+  'p-weekend':    170,
   'p-hoefafdruk': 125,
 };
 
@@ -94,20 +94,20 @@ const HD_DHL_NL             = 27;    // As opsturen via DHL — Nederland
 const HD_DHL_BUITENLAND     = 32;    // As opsturen via DHL — alle overige landen (o.a. Duitsland)
 
 /* ── Paard: transport & toeslagen ── */
-const P_KM_TARIEF_NL        = 1.50;  // €/km, Nederland (retour = enkele reis × 2)
-const P_KM_TARIEF_DU        = 1.50;  // €/km, Duitsland (retour = enkele reis × 2)
-const P_KM_MIN              = 300;   // minimumprijs ophalen (beide landen)
-const P_BRENGEN_NL          = 200;   // vast tarief bij zelf brengen (beide landen)
+const P_KM_TARIEF_NL        = 1.65;  // €/km, Nederland (retour = enkele reis × 2)
+const P_KM_TARIEF_DU        = 1.65;  // €/km, Duitsland (retour = enkele reis × 2)
+const P_KM_MIN              = 350;   // minimumprijs ophalen (beide landen)
+const P_BRENGEN_NL          = 250;   // vast tarief bij zelf brengen (beide landen)
 const P_KM_10U              = 800;   // retour-km waarboven >10u reistijd geldt (= 400 km enkele reis) — alleen Duitsland
 const P_TOEL_10U            = 105;   // toeslag >10u (Duitsland)
-const P_INSLAPEN_PRIJS      = 370;   // alleen bij "Zelf brengen"
-const P_EXTRA_CHAUFFEUR_NL  = 150;   // alleen bij Ophalen, alleen Nederland
-const P_AS_OPSTUREN_NL      = 60;
-const P_AS_UITSTROOIEN_NL   = 60;
-const P_EXTRA_KOSTEN_DU     = 375;   // automatische toeslag, alleen Duitsland
-const P_PARTNER_PROVISIE_DU = 315;   // automatische toeslag, alleen Duitsland
-const P_AS_TERUGSTUREN_DU   = 60;
-const P_AS_UITSTROOIEN_DU   = 60;
+const P_INSLAPEN_PRIJS      = 390;   // alleen bij "Zelf brengen"
+const P_EXTRA_CHAUFFEUR_NL  = 115;   // alleen bij Ophalen, alleen Nederland
+const P_AS_OPSTUREN_NL      = 65;
+const P_AS_UITSTROOIEN_NL   = 65;
+const P_EXTRA_KOSTEN_DU     = 395;   // automatische toeslag, alleen Duitsland
+const P_PARTNER_PROVISIE_DU = 300;   // automatische toeslag, alleen Duitsland
+const P_AS_TERUGSTUREN_DU   = 65;
+const P_AS_UITSTROOIEN_DU   = 65;
 
 /* ══════════════════════════════════════════════════════════
    REKENFUNCTIES
@@ -120,7 +120,7 @@ const fmt = n => n.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFr
  *  veelvoud van 5 euro. Dit is de ENIGE plek waar deze regel voorkomt — iedere
  *  eindprijs voor PAARD (in elk bestand) hoort via deze functie te lopen. */
 function berekenEindprijs(ruwTotaal) {
-  return Math.ceil((ruwTotaal * 1.05) / 5) * 5;
+  return Math.ceil(ruwTotaal / 5) * 5;
 }
 
 /** Eindprijsregel voor HUISDIER: geen marge, gewoon afronden naar boven op het
