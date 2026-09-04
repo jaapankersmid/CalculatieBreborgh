@@ -8,7 +8,7 @@
  * een handmatige wijziging hier wordt bij de volgende keer opslaan vanuit
  * het beheerpaneel weer overschreven.
  *
- * Laatst gegenereerd: 2026-09-04T10:24:55.283Z
+ * Laatst gegenereerd: 2026-09-04T10:25:55.637Z
  * ══════════════════════════════════════════════════════════
  */
 
@@ -49,7 +49,7 @@ const HD_GEWICHT = [
 /* ── Paard: extra opties, gelden voor beide landen ── */
 const P_EXTRAS = {
   'p-weekend':    170,
-  'p-hoefafdruk': 128,
+  'p-hoefafdruk': 125,
 };
 
 const P_AFSCHEID_NL       = 200;
