@@ -2,23 +2,13 @@
  * ══════════════════════════════════════════════════════════
  * BRÉBORGH — CORE (gedeelde prijstabellen, constantes & rekenfuncties)
  * ══════════════════════════════════════════════════════════
- * Dit bestand is de ENIGE plek waar prijzen, tarieven en de bijbehorende
- * rekenregels staan. Het wordt ingeladen door:
- *   - prijsaanvraag.html            (klantformulier)
- *   - partner-prijscalculator.html  (interne NL-partnercalculator)
- *   - partner-preisrechner.html     (Duitse partnercalculator)
- *   - vergelijking-cremare.html     (Cremare/Horsia-vergelijking, NL)
- *   - vergleich-cremare.html        (Cremare/Horsia-vergelijking, DE)
+ * Dit bestand wordt automatisch gegenereerd door het beheerpaneel
+ * (apps-script-prijzen.gs) op basis van de "Breborgh – Prijzen"-sheet.
+ * WIJZIG PRIJZEN VIA HET BEHEERPANEEL, NIET RECHTSTREEKS IN DIT BESTAND —
+ * een handmatige wijziging hier wordt bij de volgende keer opslaan vanuit
+ * het beheerpaneel weer overschreven.
  *
- * WIJZIG EEN PRIJS OF REGEL ALTIJD HIER — nooit in de losse bestanden.
- * Die bestanden bevatten alleen nog hun eigen formulier-/schermlogica en
- * verwijzen naar de constantes en functies die hieronder staan.
- *
- * ── BELANGRIJK BIJ WIJZIGEN ──
- * Dit bestand moet, na een aanpassing, opnieuw geüpload worden naar dezelfde
- * URL (dus het bestaande bestand in WordPress vervangen/overschrijven, niet
- * een nieuw bestand met een nieuwe link aanmaken) — anders laden de vijf
- * pagina's nog de oude versie.
+ * Laatst gegenereerd: 2026-09-04T10:24:55.283Z
  * ══════════════════════════════════════════════════════════
  */
 
@@ -29,8 +19,6 @@ const P_ORIGIN_HANSTEDT = 'Auepark 40, 21271 Hanstedt, Duitsland';        // t.b
 
 /* ── Paard: basisprijzen per categorie [naam, max hoogte (m), max gewicht (kg), prijs NL, prijs DU] ── */
 const P_CAT = [
-  // NL-prijs = nieuwe crematietarief (per 1-9-2026) + € 160,00 energieheffing, standaard verwerkt.
-  // DU-prijs = nieuwe partnertarieven Duitsland (per 1-9-2026).
   ['Veulen',      1.00,  100,  640,  490],
   ['A-Pony',      1.17,  150,  910,  665],
   ['B-Pony',      1.27,  250, 1020,  720],
@@ -44,87 +32,79 @@ const P_CAT = [
 
 /* ── Huisdier: basisprijzen per gewichtsklasse [minKg, maxKg, prijs collectief, prijs individueel] ── */
 const HD_GEWICHT = [
-  [0,   1,   85,  115],
-  [1,   5,  115,  170],
-  [5,  10,  135,  200],
-  [10, 20,  170,  225],
-  [20, 30,  190,  265],
-  [30, 40,  210,  285],
-  [40, 50,  220,  305],
-  [50, 60,  250,  335],
-  [60, 70,  275,  350],
-  [70, 80,  285,  360],
-  [80, 90,  305,  380],
-  [90,9999, 315,  390],
+  [ 0,    1,   85,  115],
+  [ 1,    5,  115,  170],
+  [ 5,   10,  135,  200],
+  [10,   20,  170,  225],
+  [20,   30,  190,  265],
+  [30,   40,  210,  285],
+  [40,   50,  220,  305],
+  [50,   60,  250,  335],
+  [60,   70,  275,  350],
+  [70,   80,  285,  360],
+  [80,   90,  305,  380],
+  [90, 9999,  315,  390],
 ];
 
 /* ── Paard: extra opties, gelden voor beide landen ── */
 const P_EXTRAS = {
-  'p-weekend':    170,  // Ophalen buiten reguliere tijden/weekend/feestdag — was € 165,00.
-  'p-hoefafdruk': 125,
+  'p-weekend':    170,
+  'p-hoefafdruk': 128,
 };
 
-/* "Afscheid nemen" heeft sinds 1-9-2026 per land een ander tarief, en een
-   losse (hogere) variant voor buiten reguliere tijden — vandaar losse
-   constantes in plaats van een vast bedrag in P_EXTRAS hierboven. */
-const P_AFSCHEID_NL       = 200;  // Afscheid nemen/zelf brengen bínnen reguliere tijden — Nederland
-const P_AFSCHEID_DU       = 210;  // idem — Duitsland
-const P_AFSCHEID_AVOND_NL = 250;  // Afscheid nemen/zelf brengen buíten reguliere tijden — Nederland
-const P_AFSCHEID_AVOND_DU = 265;  // idem — Duitsland
+const P_AFSCHEID_NL       = 200;
+const P_AFSCHEID_DU       = 210;
+const P_AFSCHEID_AVOND_NL = 250;
+const P_AFSCHEID_AVOND_DU = 265;
 
-/* ── Huisdier: extra opties die in élk bestand hetzelfde zijn.
-   Een bestand met eigen aanvullende opties (zoals de partnercalculator met
-   strooikokers) mag dit object na het laden van dit script uitbreiden, bv.:
-     HD_EXTRAS['hd-koker-s'] = 15;
-   Dat mag ondanks de `const`, want dat verbiedt alleen het overschrijven
-   van de hele variabele, niet het toevoegen van velden aan het object. ── */
+/* ── Huisdier: extra opties ── */
 const HD_EXTRAS = {
-  'hd-directe':          105,  // was € 100,00
-  'hd-directe-oven':     130,  // was € 120,00 — nu opgebouwd als € 105,00 + € 25,00 begeleiding/inlegging oven
-  'hd-afscheid':          60,  // was € 55,00
-  'hd-verstrooiing':      22,  // was € 20,00
-  'hd-pootafdruk-schuim': 15,
-  'hd-pootafdruk-gips':   50,
-  'hd-pootafdruk-inkt':   15,
-  'hd-verwijdering':       8,  // nieuw: verwijderingsbijdrage mand/deken/kussen etc.
-  'hd-eigen-urn':         20,  // nieuw: vullen van een eigen urn
-  'hd-koker-xs':          11,  // strooikoker zeer klein (alleen gebruikt door de Breborgh-partnercalculator)
-  'hd-koker-s':           16,  // strooikoker klein
-  'hd-koker-m':           21,  // strooikoker middel
-  'hd-koker-l':           26,  // strooikoker groot
-  'hd-koker-xl':          32,  // strooikoker zeer groot
+  'hd-directe':          105,
+  'hd-directe-oven':     130,
+  'hd-afscheid':         60,
+  'hd-verstrooiing':     22,
+  'hd-pootafdruk-schuim':15,
+  'hd-pootafdruk-gips':  50,
+  'hd-pootafdruk-inkt':  15,
+  'hd-verwijdering':     8,
+  'hd-eigen-urn':        20,
+  'hd-koker-xs':         11,
+  'hd-koker-s':          16,
+  'hd-koker-m':          21,
+  'hd-koker-l':          26,
+  'hd-koker-xl':         32,
 };
 
 /* ── Huisdier: overige tarieven ── */
 const HD_OPHAAL = {
-  huisMin:  65,   // minimumtarief rechtstreeks aan huis — was € 60,00
-  artsMin:  55,   // minimumtarief via dierenarts — was € 50,00
-  kmTarief: 1.50, // € per km boven de eerste 100 km retour — was € 1,30
-  laat:     60,   // toeslag na 17:00 / weekend / feestdag (aan huis) — was € 55,00
-  laatArts: 70,   // toeslag ophalen bij dierenarts in het weekend (nieuw, hoger dan 'laat')
+  huisMin:  65,
+  artsMin:  55,
+  kmTarief: 1.5,
+  laat:     60,
+  laatArts: 70,
 };
-const HD_ADMIN_NL           = 8.0;   // administratiekosten Nederland — was € 7,50
-const HD_ADMIN_DU           = 18.5;  // administratiekosten Duitsland — was € 17,50
-const HD_KLEI               = { s: 15, m: 20, l: 25 }; // kleiafdruk per maat
-const HD_AQUAMATION_TOESLAG = 20;    // toeslag t.o.v. individuele crematie
-const HD_DHL_NL             = 27;    // As opsturen via DHL — Nederland
-const HD_DHL_BUITENLAND     = 32;    // As opsturen via DHL — alle overige landen (o.a. Duitsland)
+const HD_ADMIN_NL           = 8;
+const HD_ADMIN_DU           = 18.5;
+const HD_KLEI               = { s: 15, m: 20, l: 25 };
+const HD_AQUAMATION_TOESLAG = 20;
+const HD_DHL_NL             = 27;
+const HD_DHL_BUITENLAND     = 32;
 
 /* ── Paard: transport & toeslagen ── */
-const P_KM_TARIEF_NL        = 1.65;  // €/km, Nederland — was € 1,50 (retour = enkele reis × 2)
-const P_KM_TARIEF_DU        = 1.65;  // €/km, Duitsland — was € 1,50 (retour = enkele reis × 2)
-const P_KM_MIN              = 350;   // minimumprijs ophalen (beide landen) — was € 300,00
-const P_BRENGEN_NL          = 200;   // vast tarief bij zelf brengen (beide landen)
-const P_KM_10U              = 800;   // retour-km waarboven >10u reistijd geldt (= 400 km enkele reis) — alleen Duitsland
-const P_TOEL_10U            = 160;   // toeslag >10u / overnachting chauffeur (Duitsland) — was € 105,00
-const P_INSLAPEN_PRIJS      = 390;   // alleen bij "Zelf brengen" — was € 370,00
-const P_EXTRA_CHAUFFEUR_NL  = 115;   // alleen bij Ophalen, alleen Nederland — was € 150,00
-const P_AS_OPSTUREN_NL      = 65;    // was € 60,00
-const P_AS_UITSTROOIEN_NL   = 65;    // was € 60,00
-const P_EXTRA_KOSTEN_DU     = 395;   // automatische toeslag, alleen Duitsland — was € 375,00
-const P_PARTNER_PROVISIE_DU = 315;   // automatische toeslag, alleen Duitsland — ongewijzigd bevestigd
-const P_AS_TERUGSTUREN_DU   = 65;    // was € 60,00
-const P_AS_UITSTROOIEN_DU   = 65;    // was € 60,00
+const P_KM_TARIEF_NL        = 1.65;
+const P_KM_TARIEF_DU        = 1.65;
+const P_KM_MIN              = 350;
+const P_BRENGEN_NL          = 200;
+const P_KM_10U              = 800;
+const P_TOEL_10U            = 160;
+const P_INSLAPEN_PRIJS      = 390;
+const P_EXTRA_CHAUFFEUR_NL  = 115;
+const P_AS_OPSTUREN_NL      = 65;
+const P_AS_UITSTROOIEN_NL   = 65;
+const P_EXTRA_KOSTEN_DU     = 395;
+const P_PARTNER_PROVISIE_DU = 315;
+const P_AS_TERUGSTUREN_DU   = 65;
+const P_AS_UITSTROOIEN_DU   = 65;
 
 /* ══════════════════════════════════════════════════════════
    REKENFUNCTIES
@@ -134,12 +114,11 @@ const P_AS_UITSTROOIEN_DU   = 65;    // was € 60,00
 const fmt = n => n.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 /** DE EN-DAM-REGEL: bij Duitsland 5% marge, daarna afronden naar boven op het
- *  dichtstbijzijnde veelvoud van 5 euro. Sinds 1-9-2026 vervalt de marge bij
- *  Nederlandse aanvragen (de nieuwe NL-tarieven zijn al "eindprijs").
- *  Roep je deze functie aan ZONDER het `land`-argument (zoals bij de
- *  Cremare/Horsia-vergelijkingsprijzen, die altijd Duitse tarieven zijn),
- *  dan wordt de marge gewoon toegepast — alleen het expliciet doorgeven
- *  van land='nl' schakelt 'm uit. */
+ *  dichtstbijzijnde veelvoud van 5 euro. Bij Nederlandse aanvragen vervalt
+ *  de marge (de NL-tarieven zijn al "eindprijs"). Roep je deze functie aan
+ *  ZONDER het `land`-argument (zoals bij de Cremare/Horsia-vergelijkings-
+ *  prijzen, die altijd Duitse tarieven zijn), dan wordt de marge gewoon
+ *  toegepast — alleen het expliciet doorgeven van land='nl' schakelt 'm uit. */
 function berekenEindprijs(ruwTotaal, land) {
   const marge = (land === 'nl') ? 1.00 : 1.05;
   return Math.ceil((ruwTotaal * marge) / 5) * 5;
