@@ -88,6 +88,11 @@ const HD_EXTRAS = {
   'hd-pootafdruk-inkt':   15,
   'hd-verwijdering':       8,  // nieuw: verwijderingsbijdrage mand/deken/kussen etc.
   'hd-eigen-urn':         20,  // nieuw: vullen van een eigen urn
+  'hd-koker-xs':          11,  // strooikoker zeer klein (alleen gebruikt door de Breborgh-partnercalculator)
+  'hd-koker-s':           16,  // strooikoker klein
+  'hd-koker-m':           21,  // strooikoker middel
+  'hd-koker-l':           26,  // strooikoker groot
+  'hd-koker-xl':          32,  // strooikoker zeer groot
 };
 
 /* ── Huisdier: overige tarieven ── */
