@@ -8,7 +8,7 @@
  * een handmatige wijziging hier wordt bij de volgende keer opslaan vanuit
  * het beheerpaneel weer overschreven.
  *
- * Laatst gegenereerd: 2026-09-04T10:27:08.688Z
+ * Laatst gegenereerd: 2026-09-04T10:27:28.791Z
  * ══════════════════════════════════════════════════════════
  */
 
@@ -60,7 +60,7 @@ const P_AFSCHEID_AVOND_DU = 265;
 /* ── Huisdier: extra opties ── */
 const HD_EXTRAS = {
   'hd-directe':          105,
-  'hd-directe-oven':     130.01,
+  'hd-directe-oven':     130,
   'hd-afscheid':         60,
   'hd-verstrooiing':     22,
   'hd-pootafdruk-schuim':15,
