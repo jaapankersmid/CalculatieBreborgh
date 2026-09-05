@@ -8,7 +8,7 @@
  * een handmatige wijziging hier wordt bij de volgende keer opslaan vanuit
  * het beheerpaneel weer overschreven.
  *
- * Laatst gegenereerd: 2026-09-04T10:27:28.791Z
+ * Laatst gegenereerd: 2026-09-05T07:57:09.174Z
  * ══════════════════════════════════════════════════════════
  */
 
@@ -19,15 +19,15 @@ const P_ORIGIN_HANSTEDT = 'Auepark 40, 21271 Hanstedt, Duitsland';        // t.b
 
 /* ── Paard: basisprijzen per categorie [naam, max hoogte (m), max gewicht (kg), prijs NL, prijs DU] ── */
 const P_CAT = [
-  ['Veulen',      1.00,  100,  640,  490],
-  ['A-Pony',      1.17,  150,  910,  665],
-  ['B-Pony',      1.27,  250, 1020,  720],
-  ['C-Pony',      1.37,  350, 1130,  780],
-  ['D-Pony',      1.49,  450, 1240,  840],
-  ['E-Pony',      1.55,  500, 1410,  955],
-  ['Paard <600',  null,  600, 1520, 1070],
-  ['Paard <700',  null,  700, 1630, 1185],
-  ['Paard <1200', null, 1200, 1740, 1420],
+  ['Veulen',      1.00,  100,  670,  490],
+  ['A-Pony',      1.17,  150,  960,  665],
+  ['B-Pony',      1.27,  250, 1070,  720],
+  ['C-Pony',      1.37,  350, 1190,  780],
+  ['D-Pony',      1.49,  450, 1300,  840],
+  ['E-Pony',      1.55,  500, 1480,  955],
+  ['Paard <600',  null,  600, 1600, 1070],
+  ['Paard <700',  null,  700, 1710, 1185],
+  ['Paard <1200', null, 1200, 1830, 1420],
 ];
 
 /* ── Huisdier: basisprijzen per gewichtsklasse [minKg, maxKg, prijs collectief, prijs individueel] ── */
@@ -97,7 +97,7 @@ const P_KM_MIN              = 350;
 const P_BRENGEN_NL          = 200;
 const P_KM_10U              = 800;
 const P_TOEL_10U            = 160;
-const P_INSLAPEN_PRIJS      = 390;
+const P_INSLAPEN_PRIJS      = 400;
 const P_EXTRA_CHAUFFEUR_NL  = 115;
 const P_AS_OPSTUREN_NL      = 65;
 const P_AS_UITSTROOIEN_NL   = 65;
