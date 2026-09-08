@@ -8,7 +8,7 @@
  * een handmatige wijziging hier wordt bij de volgende keer opslaan vanuit
  * het beheerpaneel weer overschreven.
  *
- * Laatst gegenereerd: 2026-09-08T10:12:27.533Z
+ * Laatst gegenereerd: 2026-09-08T10:13:02.790Z
  * ══════════════════════════════════════════════════════════
  */
 
@@ -19,7 +19,7 @@ const P_ORIGIN_HANSTEDT = 'Auepark 40, 21271 Hanstedt, Duitsland';        // t.b
 
 /* ── Paard: basisprijzen per categorie [naam, max hoogte (m), max gewicht (kg), prijs NL, prijs DU] ── */
 const P_CAT = [
-  ['Veulen',      1.00,  100, 669.99,  490],
+  ['Veulen',      1.00,  100,  670,  490],
   ['A-Pony',      1.17,  150,  960,  665],
   ['B-Pony',      1.27,  250, 1070,  720],
   ['C-Pony',      1.37,  350, 1190,  780],
